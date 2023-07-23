@@ -15,7 +15,20 @@ use borsh::BorshSerialize;
 use crate::instruction::StakeInstruction;
 use crate::error::StakeError;
 use crate::state::{ UserStakeInfo, StakeState };
+pub fn process_instruction(
+    program_id: &Pubkey,
+    accounts: &[AccountInfo],
+    instruction_data: &[u8]
+) -> ProgramResult {
+    let instruction = StakeInstruction::unpack(instruction_data)?;
 
+    match instruction {
+        StakeInstruction::InitializeStakeAccount => process_initialize_stake_account(program_id, accounts),
+        StakeInstruction::Stake => process_stake(program_id, accounts),
+        StakeInstruction::Redeem => process_redeem(program_id, accounts),
+        StakeInstruction::Unstake => process_unstake(program_id, accounts)
+    }
+}
 fn process_initialize_stake_account(
     program_id: &Pubkey,
     accounts: &[AccountInfo]
