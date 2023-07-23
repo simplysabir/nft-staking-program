@@ -14,7 +14,7 @@ pub struct UserStakeInfo {
     pub user_pubkey: Pubkey,
     pub stake_state: StakeState,
 }
-
+pub const SIZE: usize = 1 + 32 + 64 + 64 + 32 + 1;
 impl Sealed for UserStakeInfo { }
 impl IsInitialized for UserStakeInfo {
     fn is_initialized(&self) -> bool {
